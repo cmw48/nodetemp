@@ -1,0 +1,20 @@
+{
+  "name": "moveStepper",
+  "version": "1.0.0",
+  "description": "make the stepper motor move",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Chris Westling",
+  "license": "ISC",
+  "dependencies": {
+    "firmata": "^0.17.0",
+    "johnny-five": "^0.11.3",
+    "serialport": "4.0.7",
+    "typeof": "^1.0.0",
+    "util": "^0.10.3",
+    "yargs": "^3.15.0"
+  }
+}
