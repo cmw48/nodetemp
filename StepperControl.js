@@ -1,13 +1,10 @@
 const five = require('johnny-five');
 const board = new five.Board(); 
 
-export const STEPPER_RPM = 5;
 
-export class StepperControl {
+const STEPPER_RPM = 5;
 
-  constructor(stepper) {
-    this.stepper = stepper
-  }
+class StepperControl {
 
   /**
    * Move stepper a specified number of steps
@@ -15,6 +12,7 @@ export class StepperControl {
    * @return a promise that resolves if successfully moved, and rejcts if fails
    */
   moveStepper (steps) {
+
     console.log(`moving ${steps}`);
     return new Promise((resolve, reject) => {
       try {
@@ -31,4 +29,20 @@ export class StepperControl {
     })
     
   }
+
+  constructor() {
+    board.on('ready', () => {
+      this.stepper = new five.Stepper({
+        type: five.Stepper.TYPE.DRIVER,
+        stepsPerRev: 200,
+        pins: {
+          step:11,
+          dir: 13
+        }}); 
+    })
+  }
+
+  
 }
+
+module.exports = StepperControl;
