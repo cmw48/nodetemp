@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "tsc && node .",
+    "build": "tsc"
   },
   "author": "Chris Westling",
   "license": "ISC",
   "dependencies": {
+    "@types/johnny-five": "0.0.36",
+    "es6-promise": "^4.2.4",
     "firmata": "^0.17.0",
     "johnny-five": "^0.11.3",
     "serialport": "4.0.7",
