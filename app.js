@@ -52,7 +52,14 @@ function moveStepper (steps){
         dir: 13
       }
     });
-    stepper.rpm(5).ccw().step(steps, function() {
+    steps = 10
+    this.loop(10000, () => {
+      stepper.rpm(5).ccw().step(steps, function() {
+        console.log("Done moving " + steps + " steps.");
+      });
+ 
+    }); 
+   stepper.rpm(5).ccw().step(steps, function() {
       console.log("Done moving " + steps + " steps.");
     });
     });
