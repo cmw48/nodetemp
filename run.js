@@ -1,28 +1,40 @@
-const StepperControl = require('./StepperControl');
 
 var five = require("johnny-five");
-var board = new five.Board();
+var board = new five.Board({repl: false, debug: true});
 
+const STEPPER_RPM = 5;
 
-const CYCLE_TIME = 12000; //18000000; //5 hours in ms
+const CYCLE_TIME = 30000; //18000000; //5 hours in ms
 const STAGE_POSITIONS = [-190, 130, 66, 35, 37, 38, -116];    //Cycle positions to move
-var stepper = this.stepper = new five.Stepper({
+
+var opts = {
+  steps: STAGE_POSITIONS[1],
+  direction: 1,
+  rpm: STEPPER_RPM,
+  accel: STAGE_POSITIONS[1] / 4,
+  decel: STAGE_POSITIONS[1] / 4,
+};
+
+board.on('ready', () => {
+var stepper = new five.Stepper({
   type: five.Stepper.TYPE.DRIVER,
   stepsPerRev: 200,
   pins: {
     step:11,
     dir: 13
   }});
+//stepper.step(opts, function() {console.log('finished');});
+//console.log('done');
 
-board.on('ready', () => {
+
   //May try to get this in a for loop later, this will do for now
 new Promise((resolve, reject) => {
   try {
+	console.log('Moving the stepper');
       //Move the stepper
       stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[0], () => {
-        console.log(`moved ${steps}`);
-        resolve(steps);
       });
+	resolve();
   } catch (e) {
     reject(e);
  }
@@ -36,11 +48,13 @@ new Promise((resolve, reject) => {
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
+	
     try {
+	console.log('moving the stepper');
         stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[1], () => {
-          console.log(`moved ${steps}`);
-          resolve(steps);
+	console.log('done');          
         });
+	resolve();
     } catch (e) {
       reject(e);
    }
@@ -54,13 +68,14 @@ new Promise((resolve, reject) => {
   });
 })
 .then((res) => {
+
   return new Promise((resolve, reject) => {
-    try {
+	console.log('moving'); 
+   try {
         //Move the stepper
         stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[2], () => {
-          console.log(`moved ${steps}`);
-          resolve(steps);
       });
+	resolve();
     } catch (e) {
       reject(e);
    }
@@ -75,12 +90,14 @@ new Promise((resolve, reject) => {
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
-    try {
+   
+	console.log('moving');
+
+ try {
         //Move the stepper
         stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[3], () => {
-          console.log(`moved ${steps}`);
-          resolve(steps);
       });
+	resolve();
     } catch (e) {
       reject(e);
    }
@@ -95,12 +112,12 @@ new Promise((resolve, reject) => {
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
-    try {
+	console.log('moving'); 
+   try {
         //Move the stepper
         stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[4], () => {
-          console.log(`moved ${steps}`);
-          resolve(steps);
       });
+	resolve();
     } catch (e) {
       reject(e);
    }
@@ -116,11 +133,11 @@ new Promise((resolve, reject) => {
 .then((res) => {
   return new Promise((resolve, reject) => {
     try {
-        //Move the stepper
+	console.log('moving');
+       //Move the stepper
         stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[5], () => {
-          console.log(`moved ${steps}`);
-          resolve(steps);
         });
+	resolve();
     } catch (e) {
       reject(e);
    }
@@ -136,17 +153,25 @@ new Promise((resolve, reject) => {
 .then((res) => {
   return new Promise((resolve, reject) => {
     try {
+	console.log('moving');
         //Move the stepper
         stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[6], () => {
-          console.log(`moved ${steps}`);
-          resolve(steps);
       });
+	resolve();
     } catch (e) {
       reject(e);
    }
   })
+}).then((res) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+	process.exit();
+    }, CYCLE_TIME);
+  });
 })
 .catch((err) => {
   console.log(err);
 });
 });
+
