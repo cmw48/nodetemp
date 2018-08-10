@@ -1,113 +1,152 @@
 const StepperControl = require('./StepperControl');
 
-//var five = require("johnny-five");
-//var board = new five.Board();
+var five = require("johnny-five");
+var board = new five.Board();
 
 
 const CYCLE_TIME = 12000; //18000000; //5 hours in ms
 const STAGE_POSITIONS = [-190, 130, 66, 35, 37, 38, -116];    //Cycle positions to move
+var stepper = this.stepper = new five.Stepper({
+  type: five.Stepper.TYPE.DRIVER,
+  stepsPerRev: 200,
+  pins: {
+    step:11,
+    dir: 13
+  }});
 
-var argv = require('yargs')
-    .command('tempup', 'moves up a number of steps', function(yargs) {
-      yargs.options({
-        steps:  {
-          demand: false,
-          alias: 's',
-          description: 'number of steps'
-        }
-      })
-    })
-    .command('tempdown', 'move down a number of steps', function(yargs) {
-      yargs.options({
-        steps:  {
-          demand: false,
-          alias: 's',
-          description: 'number of steps -/+'
-        }
-      })
-    })
-    .command('gettemp', 'fetch current temp from ref egg', function(yargs) {
-      yargs.options({
-        steps:  {
-          demand: false,
-          alias: 'd',
-          description: 'number of steps -/+'
-        }
-      })
-    })
-    .command('runbase', (yargs) => {
-      yargs.options({
+board.on('ready', () => {
+  //May try to get this in a for loop later, this will do for now
+new Promise((resolve, reject) => {
+  try {
+      //Move the stepper
+      stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[0], () => {
+        console.log(`moved ${steps}`);
+        resolve(steps);
       });
-    })
-    .help('help')
-    .argv;
-
-var command = (argv._[0]);
-
-var stepCtrl = new StepperControl();
-
-//May try to get this in a for loop later, this will do for now
-stepCtrl.moveStepper(STAGE_POSITIONS[0])
-.then((res) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve();
-    }, CYCLE_TIME);
-  })
-})
-.then((res) => {
-  return stepCtrl.moveStepper(STAGE_POSITIONS[1]);
+  } catch (e) {
+    reject(e);
+ }
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
     }, CYCLE_TIME);
-  })
+  });
 })
 .then((res) => {
-  return stepCtrl.moveStepper(STAGE_POSITIONS[2]);
+  return new Promise((resolve, reject) => {
+    try {
+        stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[1], () => {
+          console.log(`moved ${steps}`);
+          resolve(steps);
+        });
+    } catch (e) {
+      reject(e);
+   }
+  })
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
     }, CYCLE_TIME);
-  })
+  });
 })
 .then((res) => {
-  return stepCtrl.moveStepper(STAGE_POSITIONS[3]);
+  return new Promise((resolve, reject) => {
+    try {
+        //Move the stepper
+        stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[2], () => {
+          console.log(`moved ${steps}`);
+          resolve(steps);
+      });
+    } catch (e) {
+      reject(e);
+   }
+  })
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
     }, CYCLE_TIME);
-  })
+  });
 })
 .then((res) => {
-  return stepCtrl.moveStepper(STAGE_POSITIONS[4])
+  return new Promise((resolve, reject) => {
+    try {
+        //Move the stepper
+        stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[3], () => {
+          console.log(`moved ${steps}`);
+          resolve(steps);
+      });
+    } catch (e) {
+      reject(e);
+   }
+  })
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
     }, CYCLE_TIME);
-  })
+  });
 })
 .then((res) => {
-  return stepCtrl.moveStepper(STAGE_POSITIONS[5]);
+  return new Promise((resolve, reject) => {
+    try {
+        //Move the stepper
+        stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[4], () => {
+          console.log(`moved ${steps}`);
+          resolve(steps);
+      });
+    } catch (e) {
+      reject(e);
+   }
+  })
 })
 .then((res) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve();
     }, CYCLE_TIME);
+  });
+})
+.then((res) => {
+  return new Promise((resolve, reject) => {
+    try {
+        //Move the stepper
+        stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[5], () => {
+          console.log(`moved ${steps}`);
+          resolve(steps);
+        });
+    } catch (e) {
+      reject(e);
+   }
   })
 })
 .then((res) => {
-  return stepCtrl.moveStepper(STAGE_POSITIONS[6]);
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, CYCLE_TIME);
+  });
+})
+.then((res) => {
+  return new Promise((resolve, reject) => {
+    try {
+        //Move the stepper
+        stepper.rpm(STEPPER_RPM).ccw().step(STAGE_POSITIONS[6], () => {
+          console.log(`moved ${steps}`);
+          resolve(steps);
+      });
+    } catch (e) {
+      reject(e);
+   }
+  })
 })
 .catch((err) => {
   console.log(err);
-})
+});
+});
